@@ -13,6 +13,19 @@ If it brakes for you, please open an issue with following informations:
 - any other information about the error
 
 
+## It doesn't work
+
+Sure it does !
+
+The only thing that can fail here is time synchronisation between your different devices and different authenticator apps vendors.
+
+Please check that both old and new devices have the same timezone and time
+
+Try to play with "offset compensation" feature in authenticator settings if codes don't match
+
+Keep in mind that you won't be able to have perfect match between two different devices. You may experience 10 seconds offset between two devices. 
+
+
 
 ## Step1
 Root your phone that has google authenticator installed
