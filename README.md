@@ -26,6 +26,13 @@ Try to play with "offset compensation" feature in authenticator settings if code
 Keep in mind that you won't be able to have perfect match between two different devices. You may experience 10 seconds offset between two devices. 
 
 
+## Does it work on linux/osx/windows ?
+
+Should work everywhere as long as you have all dependencies installed (see below):
+- linux (tested on ubuntu 14.04)
+- osx
+- windows via cygwin
+
 
 ## Step1
 Root your phone that has google authenticator installed
