@@ -5,9 +5,9 @@
 This was tested only with google authenticator v2.49 on android 4.2.1 (rooted)
 
 Scripts in this repository highly depend on sqlite database schema of google authenticator app.
-So it the schema changes in new versions this method could brake until i update the repository.
+So it the schema changes in new versions this method could break until i update the repository.
 
-If it brakes for you, please open an issue with following informations:
+If it break sfor you, please open an issue with following informations:
 - google authenticator exact version (ou can check it in settings > about)
 - android exact version
 - any other information about the error
