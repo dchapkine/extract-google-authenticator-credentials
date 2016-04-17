@@ -5,10 +5,10 @@
 This was tested only with google authenticator v2.49 on android 4.2.1 (rooted)
 
 Scripts in this repository highly depend on sqlite database schema of google authenticator app.
-So it the schema changes in new versions this method could brake until i update the repository.
+So it the schema changes in new versions this method could break until i update the repository.
 
-If it brakes for you, please open an issue with following informations:
-- google authenticator exact version (ou can check it in settings > about)
+If it breaks for you, please open an issue with following information:
+- google authenticator exact version (you can check it in settings > about)
 - android exact version
 - any other information about the error
 
@@ -17,7 +17,7 @@ If it brakes for you, please open an issue with following informations:
 
 Sure it does !
 
-The only thing that can fail here is time synchronisation between your different devices and different authenticator apps vendors.
+The only thing that can fail here is time synchronisation between your different devices and different authenticator app vendors.
 
 Please check that both old and new devices have the same timezone and time
 
