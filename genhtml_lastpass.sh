@@ -8,13 +8,13 @@ Content-Type: text/html\r\n\
 cat ./templates/header.html
 
 OLDIFS=$IFS
-IFS=";"
+IFS="|"
 
-while read _id email secret counter type provider issuer original_name
+while read _id issuer originalissuer lmiuserid email originalemail secret accountid userorder timestep digits
  do
 
 
-	url="otpauth://totp/"$email"?secret="$secret"&issuer="$issuer;
+	url="otpauth://totp/"$email"?secret="$secret"&issuer="$originalissuer;
 	echo '<div class="qrcode">'
 	echo '<div class="title">'$email'</div>'
 	echo '<div class="code" id="__qrcode__'$_id'"></div>'
@@ -22,13 +22,6 @@ while read _id email secret counter type provider issuer original_name
 	echo '	new QRCode(document.getElementById("__qrcode__'$_id'"), "'$url'");'
 	echo '</script>'
 	echo '</div>'
-
-    #echo -e "$_id \
-    #======================\n\
-    #Email :\t $email\n\
-    #Secret :\t $secret\n\
-    #Issuer :\t $issuer\n\
-    #\n"
 
  done < $1
  IFS=$OLDIFS
