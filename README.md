@@ -1,16 +1,27 @@
+## How does it work?
+The TOTP (Time-based One-Time Password) is an OTP generated using a shared key and the current time. When you scan the QR code
+to setup the MFA using the authenticator app(on any service), you are reading the shared key from the QR code. Inorder for the
+app to generate the OTP, it needs the shared key. Because of that, the key has to be stored somewhere in the device itself,
+so that the app could use it. The authenticator apps (Google and Lastpass) stores this key on an SQLite3 database.
+
+The idea is to extract the key and generate the QR code again so that you can scan it on a new app without having to worry about
+removing and adding the 2FA from your online account (whatever it may)
+
 
 
 ## Works for me (TM)
 
-This was tested only with google authenticator v2.49 on android 4.2.1 (rooted)
+This was tested with:
+- Google Authenticator v2.49 on Android 4.2.1 (rooted)
+- Lastpass Authenticator v1.2 on Android 7.1 (rooted)
 
-Scripts in this repository highly depend on sqlite database schema of google authenticator app.
-So it the schema changes in new versions this method could break until i update the repository.
+Scripts in this repository highly depend on sqlite database schema of the authenticator app.
+So if the schema changes in new versions this method could break until i update the repository.
 
 If it breaks for you, please open an issue with following information:
-- google authenticator exact version (you can check it in settings > about)
-- android exact version
-- any other information about the error
+- Google authenticator exact version (you can check it in settings > about)
+- Android exact version
+- Any other information about the error
 
 
 ## It doesn't work
@@ -29,64 +40,66 @@ Keep in mind that you won't be able to have perfect match between two different 
 ## Does it work on linux/osx/windows ?
 
 Should work everywhere as long as you have all dependencies installed (see below):
-- linux (tested on ubuntu 14.04)
-- osx
-- windows via cygwin
+- Any Linux distro (tested on ubuntu 14.04)
+- MacOS
+- Windows via cygwin
 
 
-## Step1
-Root your phone that has google authenticator installed
-
-## Step2
-Install adb on your pc/mac
-
-## Step3
-Make sure you have sqlite3, netcat (nc), adb and bash installed on your machine
-
-## Step4
-by default, when you do "adb pull", this command does not run as root on device, so you cant access files you want
-Install Adb unsecure, to allow "abd pull" command as root
-https://play.google.com/store/apps/details?id=eu.chainfire.adbd
-http://forum.xda-developers.com/showthread.php?t=1687590
-
-!!! IMPORTANT: open "adbd insecure" app and check "Enable insecure adbd"
+## Step 1
+To access the SQLite database, we need root permission. So, root your phone that has the authenticator app installed.
 
 
-## Step5
-plug the phone
+## Step 2
+We will be using ADB (Android Debug Bridge) to pull the database from the phone to your computer.
+Install adb on your PC/Mac. A simple Google search with your operating system name should be more than
+enough to get you started.
 
-## Step6
-check that you can see the device using adb devices
+## Step 3
+Make sure you have sqlite3, netcat (nc), adb and bash installed on your machine. If you are on a Mac/Linux machine,
+you're probably good to go.
 
-## Step7
-If yes, run ./extract.sh
+## Step 4
+Enable `Developer options` on your old phone and enable `USB debugging`. Connect your phone to the computer using a USB cable
+> Note: Make sure that you enable root for adb
 
-## Step8
-If no error showed, it means it worked and the file is not inside data/databases
+## Step 5
+Make sure that you have the adb connection working. `adb devices` should show your device.
 
-## Step9
-If step 7 was successful, run ./dumpcsv.sh
+- Run `adb shell`. This puts you in your phone's shell
+- Run `su`. When you press enter, check your phone and grant root permission to ADB
 
-## Step10
-run ./server.sh
+### For Google Authenticator
+Run the following command in the **shell**
+```
+cp /data/data/com.google.android.apps.authenticator2/databases/databases /sdcard/
+```
+### For LastPass Authenticator
+```
+cp /data/data/com.lastpass.authenticator/databases/databases /sdcard/
+```
+## Step 6
+The above step copies the database into your sdcard. Now, we need to copy it to your computer. Open a new terminal and `cd` to where you
+cloned this repository and run
+```
+./extract.sh
+```
+## Step 7
+If that worked without showing any errors, the SQLite database should be at `data/databases`.
+Run `./doit.sh` and follow the instructions on screen
 
-## Step11
-goto http://localhost:2001 in your browser
+## Step 8
+That's it. This is the same QR code as the one you scanned the very first time with your old phone. 
+Hover your mouse on one of blue squares, QRcode is displayed. Open Authenticator on new device, and scan each code
+> Note : You can use **any** authenticator app to scan the code and it should work.
 
-## Step12
-Here you go, hover your mouse on one of blue squares, qrcode is shown.
-Open google authenticator on new device, and scan each code
+## Step 9
+Congratulations if you made it so far. Your Authenticator codes are now transfered to your new device.
+### WARNING!!!! WARNING!!! WARNING!!!
+Before you remove your codes from old device, make sure that one time passwords generated by the Authenticator apps are **EXACTLY** the same on both devices.
+Note that both devices should have correct datetime set. If the codes are different and the time is the same, the schema of the SQLite db has 
+probably changed. Open an issue and I shall take a look.
 
-## Step13
-Congratulations if you made it so far, your google authenticator codes are now transfered to your new device.
-Before you remove your codes from old device, make sure that one time passwords generated by google authenticator are EXACTLY the same on both devices.
-Note that both devices should have correct datetime set
 Thank you for using this guide :)
-
-## Step14
-Now that you understand the process, you can run ./main.sh to do all this steps in one command
-Enjoy !
-
 
 
 ## Awesome links:
@@ -102,9 +115,4 @@ https://github.com/gtanner/qrcode-terminal
 
 - Tutorial
 http://www.howtogeek.com/130755/how-to-move-your-google-authenticator-credentials-to-a-new-android-phone-or-tablet/
-
-- Adb unsecure, to allow "abd pull" command as root
-https://play.google.com/store/apps/details?id=eu.chainfire.adbd
-http://forum.xda-developers.com/showthread.php?t=1687590
-
 
