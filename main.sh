@@ -1,7 +1,6 @@
 #!/bin/bash
 
+echo "--Extract Google Authenticator Credentials--"
 ./clean.sh
 ./extract.sh
-./dumpcsv.sh
 ./server.sh
-

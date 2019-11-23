@@ -35,17 +35,22 @@ var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this
 	padding-bottom: 50px;
 }
 
-.qrcode > .code
-{
-	opacity: 0;
-}
-
-
 .qrcode:hover > .code
 {
 	opacity: 1;
 }
 
+.qrcode > .code
+{
+        opacity: 0;
+}
 </style>
 </head>
-<body>
+<script>
+$(document).ready(function() { 
+  $("body").click(function() {
+     $(".qrcode > .code").css("opacity", "1")
+  })
+})
+</script>
+<h2>Click to reveal all QR codes, or hover over individual codes</h2>
